@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 :root {
-  --text-color: #170f49;
-  --sub-text-color: #6f6c90;
+  --text-color: #363535;
+  --sub-text-color: #c5c5c5;
   --alt-text-color: #fff;
   --error-color: rgb(216, 45, 45);
 
@@ -41,8 +41,5 @@ body {
   color: var(--text-color);
 
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #fff;
 }
