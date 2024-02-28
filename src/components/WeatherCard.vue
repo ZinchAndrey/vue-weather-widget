@@ -1,19 +1,19 @@
 <template>
   <div class="card">
-    <div class="card__top">
+    <div class="card__top" :class="cardClasses">
       <span class="card__temp">{{ temp }}°</span>
       <span class="card__city">{{ locationName }}</span>
     </div>
     <div class="card__sub">
       <span class="card__date">
-        Wednesday, 25 May
+        {{ currentDate }}
       </span>
       <div class="card__weather-block weather">
         <span class="weather__type">
-          {{weatherType}}
+          {{ weatherType }}
         </span>
         <span class="weather__temp">
-          {{tempMin}}° / {{ tempMax }}°
+          {{ tempMin }}° / {{ tempMax }}°
         </span>
       </div>
     </div>
@@ -21,64 +21,45 @@
 </template>
 
 <script>
-const API_K = '13dd38fa18c0081a1a495152c1ecaeb8';
+
 
 export default {
-  data() {
-    return {
-      latitude: '',
-      longitude: '',
-      locationName: '',
-      temp: '',
-      tempMin: '',
-      tempMax: '',
-      weatherType: '',
-
-      isLoading: true,
-    }
+  props: {
+    temp: {
+      type: Number,
+      reqiured: true
+    },
+    locationName: {
+      type: String,
+      default: ''
+    },
+    currentDate: {
+      type: String,
+      default: ''
+    },
+    weatherType: {
+      type: String,
+      default: ''
+    },
+    tempMin: {
+      type: Number,
+      reqiured: true
+    },
+    tempMax: {
+      type: Number,
+      reqiured: true
+    },
   },
   computed: {
-    url() {
-      return `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${API_K}`
-    }
-  },
-  methods: {
-    getTemperature(tempValue) {
-      const GAP = 273;
-      const temp = Math.round(tempValue - GAP);
-      return temp
-    },
-    getCurrentCoordinates() {
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(async position => {
-          this.latitude = position.coords.latitude;
-          this.longitude = position.coords.longitude;
-          const data = await this.loadData();
-          console.log(data);
-          
-          this.locationName = data.name;
-          this.temp = this.getTemperature(data.main.temp);
-          this.tempMin = this.getTemperature(data.main.temp_min);
-          this.tempMax = this.getTemperature(data.main.temp_max);
-          this.weatherType = data.weather[0].main;
-        });
-      } else {
-        /* местоположение НЕ доступно */
-        // как-то сообщение нужно выводить о том, чтобы разрешили доступ к геолокации 
-        console.log('Местоположение недоступно');
-      }
-
-    },
-    async loadData() {
-      const response = await fetch(this.url);
-      if (response.ok) {
-        const data = await response.json();
-        return data;
+    cardClasses() {
+      return {
+        'card--freezing': this.temp <= -20,
+        'card--cold': this.temp > -20 && this.temp <= 5,
+        'card--normal': this.temp > 5 && this.temp <= 18,
+        'card--warm': this.temp > 18 && this.temp <= 25,
+        'card--hot': this.temp > 25,
       }
     }
-  },
-  mounted() {
-    // this.getCurrentCoordinates();
   }
 }
 </script>
@@ -125,6 +106,26 @@ export default {
     font-weight: bold;
     margin-bottom: 10px;
   }
+
+  &--freezing {
+    background: linear-gradient(90deg, rgba(15, 28, 130, 0.7) 40%, rgba(33, 23, 231, 0.7) 100%);
+  }
+
+  &--cold {
+    background: linear-gradient(90deg, rgba(25, 48, 222, 0.7) 40%, rgba(54, 94, 234, 0.7) 100%);
+  }
+
+  &--normal {
+    background: linear-gradient(90deg, rgba(209, 222, 25, 0.7) 40%, rgba(228, 234, 54, 0.7) 100%);
+  }
+
+  &--warm {
+    background: linear-gradient(90deg, rgba(220, 153, 18, 0.7) 40%, rgba(233, 141, 36, 0.7) 100%);
+  }
+
+  &--hot {
+    background: linear-gradient(90deg, rgba(205, 71, 22, 0.7) 40%, rgba(213, 66, 21, 0.7) 100%);
+  }
 }
 
 .weather {
@@ -137,7 +138,5 @@ export default {
   &__type {
     margin-bottom: 5px;
   }
-
-  // &__temp {}
 }
 </style>

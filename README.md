@@ -1,14 +1,22 @@
 # vue-weather-widget
 
 
-## Customize configuration
+## TO DO
+Иконка погоды
+Цвет фона в зависимости от температуры - done
+(можно даже анимацию добавить)
+Запрос картинки города
+Подключение библиотеки с датами - done
+Loader
+Рефакторинг кода (наименования + доп функции)
 
 ## Используемые API / библиотеки
 Прогноз погоды
 https://openweathermap.org/
 
 Дата
-Dayjs
+luxon
+https://moment.github.io/luxon/
 
 ## Project Setup
 
