@@ -15,6 +15,7 @@
         <span class="weather__temp">
           {{ tempMin }}° / {{ tempMax }}°
         </span>
+        <img class="weather__icon" :src="`https://openweathermap.org/img/wn/${iconCode}@2x.png`" alt="">
       </div>
     </div>
   </div>
@@ -47,6 +48,10 @@ export default {
     },
     tempMax: {
       type: Number,
+      reqiured: true
+    },
+    iconCode: {
+      type: String,
       reqiured: true
     },
   },
@@ -112,7 +117,7 @@ export default {
   }
 
   &--cold {
-    background: linear-gradient(90deg, rgba(25, 48, 222, 0.7) 40%, rgba(54, 94, 234, 0.7) 100%);
+    background: linear-gradient(90deg, rgba(77, 139, 219, 0.7) 40%, rgba(65, 102, 235, 0.7) 100%);
   }
 
   &--normal {
@@ -132,8 +137,14 @@ export default {
   font-weight: 600;
   color: var(--sub-text-color);
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto 50px;
+
+  &__icon {
+    width: 100%;
+    height: auto;
+    grid-area: 1 / 2 / 3 / 3;
+  }
 
   &__type {
     margin-bottom: 5px;

@@ -7,6 +7,7 @@
       :tempMin="tempMin"
       :tempMax="tempMax"
       :weatherType="weatherType"
+      :iconCode="iconCode"
       :currentDate="currentDate"/>
   </main>
 </template>
@@ -32,6 +33,7 @@ export default {
       tempMin: '',
       tempMax: '',
       weatherType: '',
+      iconCode: '',
 
       isLoading: true,
       currentDate: DateTime.now().toFormat("cccc ',' LL LLLL")
@@ -61,6 +63,7 @@ export default {
           this.tempMin = this.getTemperature(data.main.temp_min);
           this.tempMax = this.getTemperature(data.main.temp_max);
           this.weatherType = data.weather[0].main;
+          this.iconCode = data.weather[0].icon;
           this.isLoading = false;
         });
       } else {
