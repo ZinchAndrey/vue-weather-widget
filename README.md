@@ -3,7 +3,12 @@
 
 ## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Используемые API / библиотеки
+Прогноз погоды
+https://openweathermap.org/
+
+Дата
+Dayjs
 
 ## Project Setup
 

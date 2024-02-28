@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <div class="card__top">
-      <span class="card__temp">29</span>
-      <span class="card__city">Moscow</span>
+      <span class="card__temp">{{ temp }}°</span>
+      <span class="card__city">{{ locationName }}</span>
     </div>
     <div class="card__sub">
       <span class="card__date">
@@ -10,17 +10,78 @@
       </span>
       <div class="card__weather-block weather">
         <span class="weather__type">
-          Mostly sunny
+          {{weatherType}}
         </span>
         <span class="weather__temp">
-          25 / 30
+          {{tempMin}}° / {{ tempMax }}°
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<script></script>
+<script>
+const API_K = '13dd38fa18c0081a1a495152c1ecaeb8';
+
+export default {
+  data() {
+    return {
+      latitude: '',
+      longitude: '',
+      locationName: '',
+      temp: '',
+      tempMin: '',
+      tempMax: '',
+      weatherType: '',
+
+      isLoading: true,
+    }
+  },
+  computed: {
+    url() {
+      return `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${API_K}`
+    }
+  },
+  methods: {
+    getTemperature(tempValue) {
+      const GAP = 273;
+      const temp = Math.round(tempValue - GAP);
+      return temp
+    },
+    getCurrentCoordinates() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async position => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          const data = await this.loadData();
+          console.log(data);
+          
+          this.locationName = data.name;
+          this.temp = this.getTemperature(data.main.temp);
+          this.tempMin = this.getTemperature(data.main.temp_min);
+          this.tempMax = this.getTemperature(data.main.temp_max);
+          this.weatherType = data.weather[0].main;
+        });
+      } else {
+        /* местоположение НЕ доступно */
+        // как-то сообщение нужно выводить о том, чтобы разрешили доступ к геолокации 
+        console.log('Местоположение недоступно');
+      }
+
+    },
+    async loadData() {
+      const response = await fetch(this.url);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
+    }
+  },
+  mounted() {
+    // this.getCurrentCoordinates();
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .card {
