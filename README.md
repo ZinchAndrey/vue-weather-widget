@@ -1,11 +1,10 @@
 # vue-weather-widget
 
+Ссылка на build [здесь](https://zinchandrey.github.io/vue-weather-widget/)
 
-## TO DO
-Запрос картинки города
-Рефакторинг кода (наименования + доп функции)
 
 ## Используемые API / библиотеки
+
 **Прогноз погоды**
 https://openweathermap.org/
 
