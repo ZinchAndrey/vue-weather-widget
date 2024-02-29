@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <div class="card__top" :class="cardClasses">
+      <div class="card__city-bg" :style="`background-image: url(${locationImage});`"></div>
       <span class="card__temp">{{ temp }}°</span>
       <span class="card__city">{{ locationName }}</span>
     </div>
@@ -22,8 +23,6 @@
 </template>
 
 <script>
-
-
 export default {
   props: {
     temp: {
@@ -53,6 +52,10 @@ export default {
     iconCode: {
       type: String,
       reqiured: true
+    },
+    locationImage: {
+      type: String,
+      default: ''
     },
   },
   computed: {
@@ -85,12 +88,23 @@ export default {
     font-weight: 700;
     color: var(--alt-text-color);
 
+    position: relative;
     padding: 40px;
     display: flex;
     flex-direction: column;
     background-color: #5f5f5f;
 
     min-height: 400px;
+  }
+
+  &__city-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: no-repeat center / cover;
+    z-index: -1;
   }
 
   &__temp {
