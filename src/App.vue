@@ -39,7 +39,7 @@ export default {
       locationImage: '',
 
       isLoading: true,
-      currentDate: DateTime.now().toFormat("cccc ',' LL LLLL"),
+      currentDate: DateTime.now().toFormat("cccc ',' dd LLLL"),
     }
   },
   computed: {
