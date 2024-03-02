@@ -42,11 +42,6 @@ export default {
       currentDate: DateTime.now().toFormat("cccc ',' dd LLLL"),
     }
   },
-  computed: {
-    url() {
-      return `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${APP_ID}`
-    },
-  },
   methods: {
     getTemperature(tempValue) {
       const GAP = 273;
@@ -54,7 +49,8 @@ export default {
       return temp
     },
     async getWeatherData() {
-      const response = await fetch(this.url);
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${APP_ID}`
+      const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -70,7 +66,6 @@ export default {
           const targetImgSrc = data.results[0].urls.small;
           return targetImgSrc;
         }
-
         return;
       }
     },
